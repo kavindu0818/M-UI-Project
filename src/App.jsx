@@ -1,24 +1,15 @@
-import { useState } from 'react';
-// import StudentList from './components/DataExportTable.jsx';
-import Form from './components/Form.jsx'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import APNReportTable from "./components/DataExportTable.jsx";
+import FormPage from "./components/Form.jsx";
 
 function App() {
-  const [refreshCounter, setRefreshCounter] = useState(0);
-
-  const handleStudentAdded = () => {
-    setRefreshCounter((prev) => prev + 1);
-  };
-
-  return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-blue-50">
-  
-          {/* Full-width StudentList */}
-          <div className="w-full">
-            <Form refresh={refreshCounter} />
-          </div>
-      
-      </div>
-  );
+    return (
+        <Routes>
+            <Route path="/" element={<FormPage />} />
+            <Route path="/apn-report" element={<APNReportTable data={[]} />} />
+        </Routes>
+    );
 }
 
 export default App;

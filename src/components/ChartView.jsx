@@ -1,89 +1,30 @@
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import { BarChart } from '@mui/x-charts/BarChart';
+import React from "react";
+import { BarChart } from "@mui/x-charts/BarChart";
 
-function TickParamsSelector({
-                                tickPlacement,
-                                tickLabelPlacement,
-                                setTickPlacement,
-                                setTickLabelPlacement,
-                            }) {
+export default function BarChartModal({ dataset, onClose }) {
     return (
-        <Stack direction="column" justifyContent="space-between" sx={{ width: '100%' }}>
-            <FormControl>
-                <FormLabel id="tick-placement-radio-buttons-group-label">
-                    tickPlacement
-                </FormLabel>
-                <RadioGroup
-                    row
-                    aria-labelledby="tick-placement-radio-buttons-group-label"
-                    name="tick-placement"
-                    value={tickPlacement}
-                    onChange={(event) => setTickPlacement(event.target.value)}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-xl w-11/12 md:w-3/4 p-6 relative shadow-2xl">
+                <button
+                    onClick={onClose}
+                    className="absolute top-3 right-3 text-gray-700 hover:text-black font-bold text-xl"
                 >
-                    <FormControlLabel value="start" control={<Radio />} label="start" />
-                    <FormControlLabel value="end" control={<Radio />} label="end" />
-                    <FormControlLabel value="middle" control={<Radio />} label="middle" />
-                    <FormControlLabel
-                        value="extremities"
-                        control={<Radio />}
-                        label="extremities"
-                    />
-                </RadioGroup>
-            </FormControl>
-            <FormControl>
-                <FormLabel id="label-placement-radio-buttons-group-label">
-                    tickLabelPlacement
-                </FormLabel>
-                <RadioGroup
-                    row
-                    aria-labelledby="label-placement-radio-buttons-group-label"
-                    name="label-placement"
-                    value={tickLabelPlacement}
-                    onChange={(event) => setTickLabelPlacement(event.target.value)}
-                >
-                    <FormControlLabel value="tick" control={<Radio />} label="tick" />
-                    <FormControlLabel value="middle" control={<Radio />} label="middle" />
-                </RadioGroup>
-            </FormControl>
-        </Stack>
-    );
-}
-
-const chartSetting = {
-    yAxis: [
-        {
-            label: 'rainfall (mm)',
-            width: 60,
-        },
-    ],
-    series: [{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter }],
-    height: 300,
-    margin: { left: 0 },
-};
-
-export default function TickPlacementBars() {
-    const [tickPlacement, setTickPlacement] = React.useState('middle');
-    const [tickLabelPlacement, setTickLabelPlacement] = React.useState('middle');
-
-    return (
-        <div style={{ width: '100%' }}>
-            <TickParamsSelector
-                tickPlacement={tickPlacement}
-                tickLabelPlacement={tickLabelPlacement}
-                setTickPlacement={setTickPlacement}
-                setTickLabelPlacement={setTickLabelPlacement}
-            />
-            <BarChart
-                dataset={dataset}
-                xAxis={[{ dataKey: 'month', tickPlacement, tickLabelPlacement }]}
-                {...chartSetting}
-            />
+                    ✕
+                </button>
+                <h4 className="text-gray-900 text-xl mb-4 font-semibold">
+                    📊 Records Added Per Month
+                </h4>
+                <BarChart
+                    dataset={dataset}
+                    xAxis={[
+                        { dataKey: "month", tickPlacement: "middle", tickLabelPlacement: "middle" },
+                    ]}
+                    series={[{ dataKey: "count", label: "Added Records", color: "#0c0b4d" }]}
+                    yAxis={[{ label: "Records" }]}
+                    height={300}
+                    margin={{ left: 70 }}
+                />
+            </div>
         </div>
     );
 }
