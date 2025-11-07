@@ -15,7 +15,6 @@ import xmlimage from "../assest/xml.png";
 import BarChartModal from "./ChartView.jsx";
 import * as XLSX from "xlsx";
 
-// --- comparator functions ---
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
     if (b[orderBy] > a[orderBy]) return 1;
@@ -45,14 +44,6 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
     return (
         <TableHead sx={{ backgroundColor: "#0c0b4d" }}>
             <TableRow>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        color="#fff"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                    />
-                </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -90,23 +81,10 @@ function EnhancedTableToolbar({ numSelected, exportToPDF, exportToCSV, exportToX
                 },
             ]}
         >
-            {numSelected > 0 ? (
-                <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1">
-                    {numSelected} selected
-                </Typography>
-            ) : (
                 <Typography variant="h6" sx={{ flex: 1, color: "#0c0b4d", fontWeight: 600 }}>
                     APN Report
                 </Typography>
-            )}
 
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <IconButton>
-                        <Delete />
-                    </IconButton>
-                </Tooltip>
-            ) : (
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                     <Tooltip title="Show Report Chart">
                         <IconButton
@@ -182,10 +160,10 @@ function EnhancedTableToolbar({ numSelected, exportToPDF, exportToCSV, exportToX
                         </IconButton>
                     </Tooltip>
                 </Box>
-            )}
         </Toolbar>
     );
 }
+
 
 export default function DataExportTable({ data, onBack }) {
     const [order, setOrder] = useState("asc");
@@ -196,7 +174,6 @@ export default function DataExportTable({ data, onBack }) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [showChartModal, setShowChartModal] = useState(false);
 
-    // --- Handlers ---
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -256,7 +233,6 @@ export default function DataExportTable({ data, onBack }) {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     };
-
 
 
     const exportToXLSX = () => {
@@ -379,9 +355,6 @@ export default function DataExportTable({ data, onBack }) {
                                             transition: "background-color 0.2s ease",
                                         }}
                                     >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox color="primary" checked={isItemSelected} />
-                                        </TableCell>
                                         {headCells.map((h) => (
                                             <TableCell key={h.id} align={h.numeric ? "right" : "left"}>
                                                 {row[h.id]}
@@ -414,7 +387,9 @@ export default function DataExportTable({ data, onBack }) {
             </Paper>
 
             {showChartModal &&
-                <BarChartModal dataset={dataset} onClose={() => setShowChartModal(false)} />}
+                <BarChartModal
+                    dataset={dataset} onClose={() => setShowChartModal(false)}
+                />}
         </Box>
     );
 }
