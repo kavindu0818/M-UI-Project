@@ -385,7 +385,6 @@ export default function DataExportTable({ data, onBack }) {
                     label="Compact Table Mode"
                 />
             </Paper>
-
             {showChartModal &&
                 <BarChartModal
                     dataset={dataset} onClose={() => setShowChartModal(false)}
